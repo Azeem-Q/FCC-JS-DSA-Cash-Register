@@ -14,31 +14,29 @@ function checkCashRegister(price, cash, cid) {
         }
     }
     let iArr = [];
-    for (let i = cid.length - 1; i > 0; --i) {
+    for (let i = cid.length - 1; i > -1; --i) {
         iArr.push(i);
         console.log('cd', changeDue, 'cid', cashArr[i]);
         if (changeDue > cashArr[i]) {
             let unit = 0
-            while (unit < changeDue) {
+            while (unit < changeDue && unit < cid[i][1]) {
                 unit += cashArr[i];
-            }
-            while (unit > cid[i][1]){
-                unit -= cashArr[i];
             }
             //unit -= cashArr[i];
             if (unit > changeDue) {
                 unit -= cashArr[i];
             }
             changeDue = changeDue - unit;
-            //console.log(changeDue);
+            console.log('change', changeDue);
             changeArr.push([cid[i][0], unit]);
             console.log(i, changeDue);
         }   else {
             continue;
         }
     }
-    //console.log(changeDue);
+    console.log('finalDue', changeDue);
     console.log(...iArr);
+    console.log(...changeArr);
     if (changeDue > 0) {
         return {
             status: "INSUFFICIENT_FUNDS", 
@@ -54,3 +52,5 @@ function checkCashRegister(price, cash, cid) {
 }
 
 console.log(JSON.stringify(checkCashRegister(3.26, 100, [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]])));
+
+
